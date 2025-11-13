@@ -1,0 +1,8 @@
+name: MariaDBDriverPlugin
+version: '1.0.0'
+main: dk.marcusrokatis.mariaDBDriverPlugin.MariaDBDriverPlugin
+api-version: '1.21'
+prefix: MariaDBDriverPlugin
+load: STARTUP
+authors: [ Marcus Rokatis ]
+description: Registers a single MariaDB JDBC driver for all plugins
