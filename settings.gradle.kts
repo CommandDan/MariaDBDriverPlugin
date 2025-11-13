@@ -1,1 +1,1 @@
-rootProject.name = "MariaDBDriverPlugin"
+rootProject.name = "MariaDBDriver"

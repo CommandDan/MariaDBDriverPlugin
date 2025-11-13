@@ -1,11 +1,10 @@
 plugins {
     kotlin("jvm") version "2.3.0-Beta2"
-    id("com.gradleup.shadow") version "8.3.0"
-    id("xyz.jpenilla.run-paper") version "2.3.1"
+    id("com.gradleup.shadow") version "9.2.2"
 }
 
 group = "dk.marcusrokatis"
-version = "1.0.0"
+version = "1.0.0" + "-${property("mariaDBVersion")}"
 
 repositories {
     mavenCentral()
@@ -15,26 +14,28 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:${property("paperApiVersion")}")
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.mariadb.jdbc:mariadb-java-client:${property("mariaDBVersion")}")
+}
+
+kotlin {
+    jvmToolchain(property("javaVersion").toString().toInt())
 }
 
 tasks {
-    runServer {
-        // Configure the Minecraft version for our task.
-        // This is the only required configuration besides applying the plugin.
-        // Your plugin's jar (or shadowJar if present) will be used automatically.
-        minecraftVersion("1.21")
+    jar {
+        enabled = false
     }
-}
 
-val targetJavaVersion = 21
-kotlin {
-    jvmToolchain(targetJavaVersion)
-}
+    shadowJar {
+        archiveClassifier.set("")
+    }
 
-tasks.build {
-    dependsOn("shadowJar")
+    build {
+        dependsOn(shadowJar)
+    }
 }
 
 tasks.processResources {
